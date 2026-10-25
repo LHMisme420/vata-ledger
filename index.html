@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The VATA Ledger</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; line-height: 1.5; color: #333; background: #fff; padding: 20px; max-width: 1200px; margin: 0 auto; }
+        h1 { font-size: 24px; font-weight: 600; margin-bottom: 16px; color: #000; }
+        .intro { margin-bottom: 32px; color: #555; font-size: 14px; line-height: 1.6; }
+        table { width: 100%; border-collapse: collapse; margin-bottom: 32px; font-size: 14px; }
+        thead { border-bottom: 2px solid #000; }
+        th { text-align: left; padding: 12px 8px; font-weight: 600; color: #000; }
+        td { padding: 12px 8px; border-bottom: 1px solid #ddd; }
+        tr:last-child td { border-bottom: none; }
+        a { color: #0066cc; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .reference { font-family: monospace; font-size: 13px; color: #666; }
+        .severity-critical { color: #d1001c; font-weight: 600; }
+        .severity-high { color: #ff6600; font-weight: 600; }
+        .severity-moderate { color: #ffa500; font-weight: 600; }
+        .section { margin-top: 40px; padding-top: 24px; border-top: 1px solid #ddd; }
+        .section h2 { font-size: 16px; font-weight: 600; margin-bottom: 16px; color: #000; }
+        .section p { font-size: 14px; line-height: 1.6; color: #555; margin-bottom: 8px; }
+        .disclaimer { margin-top: 40px; padding: 16px; background: #f5f5f5; border-left: 4px solid #333; font-size: 14px; color: #333; }
+        .last-updated { font-size: 12px; color: #999; margin-top: 32px; }
+        @media (max-width: 768px) { body { padding: 16px; } h1 { font-size: 20px; } table { font-size: 13px; } th, td { padding: 10px 6px; } }
+    </style>
+</head>
+<body>
+    <h1>The VATA Ledger</h1>
+    <div class="intro">
+        <p>A record of security findings reported to maintainers, each with a reference a stranger can verify. Absence of an entry means nothing either way.</p>
+        <p>Every entry below is a report I filed with the maintainers, with me credited as reporter. Each reference links to the advisory. Nothing appears here until it has been reported and the reference resolves.</p>
+    </div>
+    <table>
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Finding</th>
+                <th>Target and version</th>
+                <th>Severity</th>
+                <th>Reference</th>
+                <th>Link</th>
+                <th>Probe or declared limit</th>
+                <th>In a report yet</th>
+            </tr>
+        </thead>
+        <tbody id="findings-body">
+        </tbody>
+    </table>
+    <div class="section">
+        <h2>How this page works</h2>
+        <p>A finding is added only when it has been reported to the maintainers and the reference resolves. Each entry records which probe it became, or which limit it cannot be probed by. Probe sets are versioned, so a later probe never rewrites an earlier entry.</p>
+        <p>The scanner tests authorization-server properties on a running endpoint. Three of the findings here sit outside that scope: sandbox isolation, policy enforcement and argument handling. They're on the page because they're real and they have advisories, not because the scanner found them. Where a finding has a half a prober can reach, like the issuer on row 4, the other half is listed as a declared limit.</p>
+    </div>
+    <div class="disclaimer">
+        This is a record of reports, not a claim that any system is secure.
+    </div>
+    <div class="last-updated" id="last-updated"></div>
+    <script>
+        async function loadFindings() {
+            try {
+                const response = await fetch('findings.json');
+                const data = await response.json();
+                const tbody = document.getElementById('findings-body');
+                data.findings.forEach(finding => {
+                    const row = document.createElement('tr');
+                    const severityClass = `severity-${finding.severity.toLowerCase()}`;
+                    const linkCell = finding.url ? `<a href="${finding.url}">${finding.reference}</a>` : `<span class="${finding.reference}">${finding.reference}</span>`;
+                    row.innerHTML = `<td>${finding.date}</td><td>${finding.finding}</td><td>${finding.target}</td><td><span class="${severityClass}">${finding.severity}</span></td><td><span class="reference">${finding.reference}</span></td><td>${linkCell}</td><td>${finding.probe}</td><td>${finding.inReport}</td>`;
+                    tbody.appendChild(row);
+                });
+                const lastUpdated = document.getElementById('last-updated');
+                lastUpdated.textContent = `Last updated: ${data.lastUpdated}`;
+            } catch (error) {
+                console.error('Error loading findings:', error);
+            }
+        }
+        loadFindings();
+    </script>
+</body>
+</html>

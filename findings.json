@@ -1,0 +1,45 @@
+{
+  "lastUpdated": "2026-10-25",
+  "findings": [
+    {
+      "date": "2026-10-20",
+      "finding": "The client wrappers built their OAuth provider without binding it to an issuer, so a client could be sent credentials while pointed at an authorization server someone else controls.",
+      "target": "fastmcp and fastmcp-slim 4.0.0 to 4.1.1, fixed in 4.1.2",
+      "severity": "Moderate",
+      "reference": "GHSA-vqqp-x5qm-5qp4",
+      "url": "https://github.com/PrefectHQ/fastmcp/security/advisories/GHSA-vqqp-x5qm-5qp4",
+      "probe": "server-side: issuer-identity probe, client-side: declared limit",
+      "inReport": "No"
+    },
+    {
+      "date": "2026-10-19",
+      "finding": "A DNS rebind filter treated an IPv4-mapped IPv6 address as public when it pointed at a private one, so a network-enabled sandbox could reach loopback, link-local or cloud metadata addresses it was supposed to be blocked from. The advisory notes no live secret disclosure was demonstrated.",
+      "target": "microsandbox (superradcompany), versions 0.4.0 to 0.6.2, fixed in 0.6.3",
+      "severity": "Critical",
+      "reference": "GHSA-v693-3rfr-6q3q",
+      "url": "https://github.com/superradcompany/microsandbox/security/advisories/GHSA-v693-3rfr-6q3q",
+      "probe": "not covered, sandbox networking",
+      "inReport": "No"
+    },
+    {
+      "date": "2026-08-08",
+      "finding": "Arguments handed to a tool were not escaped for pipe characters, so a crafted value could be read as a second command instead of data.",
+      "target": "mcp-shell-server (tumf)",
+      "severity": "Moderate",
+      "reference": "GHSA-q8pm-q3r2-q7cg",
+      "url": "https://github.com/tumf/mcp-shell-server/security/advisories/GHSA-q8pm-q3r2-q7cg",
+      "probe": "not covered, tool argument handling",
+      "inReport": "No"
+    },
+    {
+      "date": "2026-07-15",
+      "finding": "The default subprocess sandbox ignored its own blocklists for commands, paths and imports, along with the allow flags for subprocesses and file writes, so restrictions that looked configured were not being enforced.",
+      "target": "PraisonAI before 4.6.78",
+      "severity": "High",
+      "reference": "GHSA-5r6c-gj4g-r697 / CVE-2026-60085",
+      "url": "https://github.com/MervinPraison/PraisonAI/security/advisories/GHSA-5r6c-gj4g-r697",
+      "probe": "not covered, sandbox policy enforcement",
+      "inReport": "No"
+    }
+  ]
+}
