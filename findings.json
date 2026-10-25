@@ -9,7 +9,7 @@
       "reference": "GHSA-vqqp-x5qm-5qp4",
       "url": "https://github.com/PrefectHQ/fastmcp/security/advisories/GHSA-vqqp-x5qm-5qp4",
       "probe": "server-side: issuer-identity probe, client-side: declared limit",
-      "inReport": "No"
+      "inReport": "not yet"
     },
     {
       "date": "2026-10-19",
@@ -19,17 +19,17 @@
       "reference": "GHSA-v693-3rfr-6q3q",
       "url": "https://github.com/superradcompany/microsandbox/security/advisories/GHSA-v693-3rfr-6q3q",
       "probe": "not covered, sandbox networking",
-      "inReport": "No"
+      "inReport": "not yet"
     },
     {
       "date": "2026-08-08",
-      "finding": "Arguments handed to a tool were not escaped for pipe characters, so a crafted value could be read as a second command instead of data.",
+      "finding": "An argv element containing a pipe character was split into a synthetic pipeline boundary, so literal argument data could be restructured into an unintended pipeline and command policies could inspect modified rather than original argv. Each stage still had to pass the command allowlist. Filed as a duplicate of the primary advisory, GHSA-7wg7-jj87-qp4c.",
       "target": "mcp-shell-server (tumf)",
       "severity": "Moderate",
       "reference": "GHSA-q8pm-q3r2-q7cg",
       "url": "https://github.com/tumf/mcp-shell-server/security/advisories/GHSA-q8pm-q3r2-q7cg",
       "probe": "not covered, tool argument handling",
-      "inReport": "No"
+      "inReport": "not yet"
     },
     {
       "date": "2026-07-15",
@@ -39,7 +39,7 @@
       "reference": "GHSA-5r6c-gj4g-r697 / CVE-2026-60085",
       "url": "https://github.com/MervinPraison/PraisonAI/security/advisories/GHSA-5r6c-gj4g-r697",
       "probe": "not covered, sandbox policy enforcement",
-      "inReport": "No"
+      "inReport": "not yet"
     }
   ]
 }
